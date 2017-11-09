@@ -5,7 +5,7 @@ Utilises PyOpenGL library for renderer and PyGame for control.
 
 Seminar project for IB111 @ FI MUNI
 
-##Launch
+## Launch
 ```
 python3 app.py
 ```
