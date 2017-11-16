@@ -3,6 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+
 def draw(vertices, edges, surfaces, surface_type, wireframe_mode):
     if wireframe_mode:
         glBegin(GL_LINES)
@@ -12,7 +13,8 @@ def draw(vertices, edges, surfaces, surface_type, wireframe_mode):
     else:
         color = ((0.5, 0.5, 0.5),
                  (0.25, 0.25, 0.25),
-                 (0.6, 0.6, 0.6))
+                 (0.6, 0.6, 0.6),
+                 (0.7, 0.7, 0.7))
         if surface_type == "triangle":
             glBegin(GL_TRIANGLES)
         elif surface_type == "quad":
@@ -50,7 +52,6 @@ def display_mesh(mesh_data):
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                print(event.key)
                 if event.key == 27:
                     pygame.quit()
                     quit()
