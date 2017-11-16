@@ -46,5 +46,6 @@ def main():
     print("Escape - quit")
     simple_renderer.display_mesh(mesh_data)
 
+
 if __name__ == "__main__":
     main()
