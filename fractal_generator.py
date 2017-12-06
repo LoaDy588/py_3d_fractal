@@ -1,5 +1,3 @@
-import math
-
 def generate_cube(a, b, c, d, e, f, g, h, depth):
     vertices = []
     edges = []
@@ -37,7 +35,7 @@ def cube(a, b, c, d, e, f, g, h, depth, vertices, edges, surfaces, center):
             vertices.append(one_third(g, a))  # G
             vertices.append(one_third(h, b))  # H
 
-        last = len(vertices)-1
+        last = len(vertices) - 1
 
         edges.append((last-7, last-6))
         edges.append((last-6, last-5))
@@ -139,8 +137,10 @@ def generate_sub_cubes(a, b, c, d, e, f, g, h):
 
 
 def generate_sub_origins(a, b, c, d, e, f, g, h):
-    corners = (a, one_third(b, a), one_third(c, a), one_third(d, a),
-               one_third(e, a), one_third(f, a), one_third(g, a), one_third(h, a))
+    corners = (
+        a, one_third(b, a), one_third(c, a), one_third(d, a),
+        one_third(e, a), one_third(f, a), one_third(g, a), one_third(h, a)
+        )
     origins = []
     for corner in corners:
         if corner not in origins:
