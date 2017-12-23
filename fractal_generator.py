@@ -14,6 +14,14 @@ def generate_tetrahedron(a, b, c, d, depth, config):
     return (tuple(vertices), tuple(edges), tuple(surfaces), "triangle")
 
 
+def generate_pyramid(a, b, c, d, e, depth, config):
+    vertices = []
+    edges = []
+    surfaces = []
+    pyramid(a, b, c, d, e, depth, vertices, edges, surfaces, config)
+    return (tuple(vertices), tuple(edges), tuple(surfaces), "triangle")
+
+
 def cube(a, b, c, d, e, f, g, h,
          depth, vertices, edges, surfaces, config, no_gap):
     if depth == 0:
@@ -47,6 +55,20 @@ def tetrahedron(a, b, c, d, depth, vertices, edges, surfaces, config):
                             depth_iter, vertices, edges, surfaces, config)
 
 
+def pyramid(a, b, c, d, e, depth, vertices, edges, surfaces, config):
+    if depth == 0:
+        draw_pyramid(a, b, c, d, e, vertices, edges, surfaces)
+    else:
+        pyramids = generate_sub_pyramids(a, b, c, d, e)
+        for index, item in enumerate(pyramids):
+            depth_iter = depth-1
+            if index in config[0]:
+                if index in config[1]:
+                    depth_iter = 0
+                pyramid(item[0], item[1], item[2], item[3], item[4],
+                        depth_iter, vertices, edges, surfaces, config)
+
+
 def midpoint(a, b):
     middle = []
     for i in range(len(a)):
@@ -69,6 +91,23 @@ def generate_sub_tetrahedrons(a, b, c, d):
     sub_tetra.append((midpoint(a, c), midpoint(b, c), c, midpoint(c, d)))
     sub_tetra.append((midpoint(a, d), midpoint(b, d), midpoint(c, d), d))
     return tuple(sub_tetra)
+
+
+def generate_sub_pyramids(a, b, c, d, e):
+    sub_pyramids = []
+    sub_pyramids.append((a, midpoint(a, b), midpoint(a, c),
+                        midpoint(a, d), midpoint(a, e)))
+    sub_pyramids.append((midpoint(a, b), b, midpoint(b, c),
+                        midpoint(b, d), midpoint(b, e)))
+    sub_pyramids.append((midpoint(a, c), midpoint(b, c), c,
+                        midpoint(c, d), midpoint(c, e)))
+    sub_pyramids.append((midpoint(a, d), midpoint(a, c), midpoint(c, d),
+                         d, midpoint(d, e)))
+    sub_pyramids.append((midpoint(a, e), midpoint(b, e), midpoint(c, e),
+                         midpoint(d, e), e))
+    sub_pyramids.append((midpoint(a, e), midpoint(b, e), midpoint(c, e),
+                         midpoint(d, e), midpoint(a, c)))
+    return tuple(sub_pyramids)
 
 
 def generate_sub_cubes(a, b, c, d, e, f, g, h):
@@ -151,10 +190,8 @@ def draw_cube(a, b, c, d, e, f, g, h, vertices, edges, surfaces, no_gap):
 
 
 def draw_tetrahedron(a, b, c, d, vertices, edges, surfaces):
-    vertices.append(a)
-    vertices.append(b)
-    vertices.append(c)
-    vertices.append(d)
+    for vertex in (a, b, c, d):
+        vertices.append(vertex)
 
     last = len(vertices)-1
 
@@ -169,3 +206,26 @@ def draw_tetrahedron(a, b, c, d, vertices, edges, surfaces):
     surfaces.append((last-3, last-2, last))
     surfaces.append((last-3, last, last-1))
     surfaces.append((last, last-2, last-1))
+
+
+def draw_pyramid(a, b, c, d, e, vertices, edges, surfaces):
+    for vertex in (a, b, c, d, e):
+        vertices.append(vertex)
+
+    last = len(vertices)-1
+
+    edges.append((last-4, last-3))
+    edges.append((last-3, last-2))
+    edges.append((last-2, last-1))
+    edges.append((last-1, last-4))
+    edges.append((last-4, last))
+    edges.append((last-3, last))
+    edges.append((last-2, last))
+    edges.append((last-1, last))
+
+    surfaces.append((last-4, last-2, last-3))
+    surfaces.append((last-1, last-4, last-2))
+    surfaces.append((last-4, last-3, last))
+    surfaces.append((last-3, last-2, last))
+    surfaces.append((last-2, last-1, last))
+    surfaces.append((last-1, last-4, last))
