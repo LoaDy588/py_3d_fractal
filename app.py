@@ -30,7 +30,7 @@ def load_config(file_location):
             config.append(temp)
         else:
             for value in item_split:
-                temp2.append(int(value))
+                temp.append(int(value))
             config.append(temp)
     return tuple(config)
 
